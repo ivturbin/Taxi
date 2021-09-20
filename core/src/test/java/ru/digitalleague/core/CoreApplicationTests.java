@@ -1,10 +1,10 @@
-package ru.digitalleague.mytaxiservice;
+package ru.digitalleague.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyTaxiServiceApplicationTests {
+class CoreApplicationTests {
 
     @Test
     void contextLoads() {

@@ -1,13 +1,13 @@
-package ru.digitalleague.mytaxiservice;
+package ru.digitalleague.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MyTaxiServiceApplication {
+public class CoreApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MyTaxiServiceApplication.class, args);
+        SpringApplication.run(CoreApplication.class, args);
     }
 
 }
