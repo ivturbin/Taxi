@@ -20,6 +20,7 @@
         <module>common</module>
         <module>core</module>
         <module>bom</module>
+        <module>migration</module>
     </modules>
 
     <dependencies>
