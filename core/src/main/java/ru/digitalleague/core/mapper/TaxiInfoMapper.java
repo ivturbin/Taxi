@@ -40,4 +40,6 @@ public interface TaxiInfoMapper {
     TaxiDriverInfoModel selectByPrimaryKey(Long driverId);
 
     int updateByPrimaryKey(TaxiDriverInfoModel record);
+
+    List<TaxiDriverInfoModel> selectByLastName(String lastName);
 }
