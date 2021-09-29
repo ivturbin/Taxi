@@ -1,4 +1,4 @@
-package ru.digitalleague.core.config;
+package ru.digitalleague.taxi_company.config;
 
 import liquibase.integration.spring.SpringLiquibase;
 import lombok.extern.slf4j.Slf4j;
@@ -10,13 +10,21 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import ru.digitalleague.taxi_company.listener.OrderListener;
+
 @Configuration
 @Slf4j
 public class ApplicationConfiguration {
+
+    @Value("${application.broker.receive-queue}")
+    private String queueName;
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -34,14 +42,6 @@ public class ApplicationConfiguration {
     }
 
     /**
-     * Очередь для приема заказов.
-     */
-    @Bean
-    public Queue myQueue1() {
-        return new Queue("order");
-    }
-
-    /**
      * Очередь для приема результатов поездки.
      */
     @Bean
@@ -49,54 +49,12 @@ public class ApplicationConfiguration {
         return new Queue("trip-result");
     }
 
+    /**
+     * Очередь для приема результатов поездки.
+     */
     @Bean
     public Queue myQueue3() {
-        return new Queue("moscow_queue");
-    }
-
-    @Bean
-    public Queue myQueue4() {
-        return new Queue("spb_queue");
-    }
-
-    @Bean
-    public Queue myQueue5() {
-        return new Queue("sar_queue");
-    }
-
-    @Bean
-    public Queue myQueue6() {
-        return new Queue("rost_queue");
-    }
-
-    @Bean
-    public Queue myQueue7() {
-        return new Queue("tag_queue");
-    }
-
-    @Bean
-    public Queue myQueue8() {
-        return new Queue("cher_queue");
-    }
-
-    @Bean
-    public Queue myQueue9() {
-        return new Queue("bar_queue");
-    }
-
-    @Bean
-    public Queue myQueue10() {
-        return new Queue("nef_queue");
-    }
-
-    @Bean
-    public Queue myQueue11() {
-        return new Queue("kem_queue");
-    }
-
-    @Bean
-    public Queue myQueue12() {
-        return new Queue("mag_queue");
+        return new Queue(queueName);
     }
 
     @Bean
@@ -114,5 +72,16 @@ public class ApplicationConfiguration {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setShouldRun(false);
         return liquibase;
+    }
+
+    @Bean
+    public MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory) {
+        SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+        simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
+        // устанавливаем очередь, которую будет слушать приложение
+        simpleMessageListenerContainer.setQueues(myQueue3());
+        simpleMessageListenerContainer.setMessageListener(new OrderListener());
+        return simpleMessageListenerContainer;
+
     }
 }
