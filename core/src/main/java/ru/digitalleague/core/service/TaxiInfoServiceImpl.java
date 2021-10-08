@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.digitalleague.core.api.TaxiInfoService;
 import ru.digitalleague.core.mapper.TaxiInfoMapper;
 import ru.digitalleague.core.model.TaxiDriverInfoModel;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
 public class TaxiInfoServiceImpl implements TaxiInfoService {
 

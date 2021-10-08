@@ -1,7 +1,9 @@
-package ru.digitalleague.core.service;
+package ru.digitalleague.core.api;
 
+import org.springframework.stereotype.Service;
 import ru.digitalleague.core.model.TaxiDriverInfoModel;
 
+@Service
 public interface TaxiInfoService {
 
     int insert(TaxiDriverInfoModel record);

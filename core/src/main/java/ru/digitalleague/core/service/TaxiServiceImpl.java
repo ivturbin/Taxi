@@ -12,7 +12,7 @@ import ru.digitalleague.core.mapper.TaxiInfoMapper;
 import ru.digitalleague.core.model.OrderDetails;
 import ru.digitalleague.core.api.TaxiService;
 
-@Service
+
 public class TaxiServiceImpl implements TaxiService {
 
     @Autowired
